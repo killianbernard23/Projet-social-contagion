@@ -1,7 +1,38 @@
 # Projet-social-contagion: Code Manual & Parameters Documentation
 
 This document serves as the technical cookbook explaining the model parameters, abbreviations, and economic functions used in the Python codebase for **Projet-social-contagion** (Ellouze, Fleurbaey, Prigent, 2026).
+# Projet-social-contagion
 
+[![Python Version](https://img.shields.io/badge/python-3.x-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+A Python simulation and quantitative analysis framework modeling social contagion, stratification, inequality, and mobility based on the theoretical paper *Social contagion, inequality and mobility* by Ali Ellouze, Marc Fleurbaey, and Jean-Luc Prigent (2026).
+
+---
+
+## What the Project Does
+
+**Projet-social-contagion** adapts discrete-time Susceptible-Infected-Recovered (SIR) epidemiological mechanisms to study social stratification and mobility across three distinct classes: High ($H$), Middle ($M$), and Low ($L$). The repository contains robust simulation scripts, Monte Carlo sampling pipelines for archetypal social interaction structures, and publication-quality visualization tools (simplex projections, vector fields, and comparative distribution boxplots).
+
+---
+
+## Why the Project is Useful
+
+*   **Taxonomy of Social Interactions**: Implements algorithmic parameter sampling for core archetypal interaction types (`Cooperation`, `Competition`, `Attraction`, `Exploitation`, `Homophily`, and `Diversity`) based on transition probability constraints.
+*   **Advanced Welfare & Inequality Metrics**: Computes Gini coefficients, Atkinson inequality indexes (with configurable aversion parameter $\eta$), and Atkinson/Gini-based social welfare functions.
+*   **Comprehensive Mobility Analysis**: Evaluates structural and operational mobility through transition matrix determinants, traces, differential mobility effects, and long-term operational discounted matrix inversions.
+*   **Epidemiological & Learning Analogies**: Explores pandemic-like contagion waves, learning processes, and flattened curves resulting from contact reduction ($s$).
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Ensure you have Python 3 installed along with the required numerical and plotting libraries:
+
+```bash
+pip install numpy matplotlib pandas
 ---
 
 ## 1. Socioeconomic Constants & Reward Levels
