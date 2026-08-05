@@ -179,3 +179,62 @@ These blocks construct grid spaces inside the constrained simplex region ($x + y
 *   **`run_model(...)`**: Simulates temporal convergence trajectories over large time horizons ($T = 20,000$) starting from various initial conditions ([0.25, 0.5, 0.25], [1, 0, 0], [0, 0, 1]) to isolate steady-state limit points ($X_0, Y_0$, $XH_0, YH_0$, $XL_0, YL_0$).
 *   **`vector_field(X, Y)`**: Computes single-period variation vector components ($U, V$) across meshgrids.
 *   **`plt.quiver(...)`**: Renders blue vector field arrows mapped onto equilateral triangle coordinates (`U_tri`, `V_tri`), highlighting directional trajectories, stability basins, and asymptotic limits for specific game configurations.
+*   ## 16. Dynamic Vector Field Title Formatting
+
+*   **Decimal Handling (`digit`)**: Automatically adjusts the LaTeX display format for transition rates ($\alpha^+, \alpha^-, \beta^+, \beta^-, \gamma^+, \gamma^-$) based on the required level of precision (`digit = 1`, `2`, or `3`).
+*   **File Naming for Backups (`save_basename`)**: Generates unique file identifiers incorporating the number of social contacts (`Soc`) and all six transition parameters for the automated archiving of vector graphics.
+
+---
+
+## 17. Empirical Cumulative Distribution Functions (ECDF) by Degree or Intensity (`CDFplot_by_zz`)
+
+*   **`load_xz(label, XX, zzz, Soc)`**: Loads simulation samples for a given game type and simultaneously extracts the target economic indicator (`XX`) and the associated structural metric (`zzz`, representing either degree centrality or interaction intensity).
+*   **`CDFplot_by_zz(zz, Soc)`**: Splits the samples into two sub-populations based on the median of the control variable (`z < median_z` vs. `z ≥ median_z`) and plots comparative step-wise cumulative distribution functions (`plt.step`) to evaluate the impact of centrality on economic performance.
+
+---
+
+## 18. Trajectories and Transition Paths in the Simplex (`pathway`)
+
+*   **`pathway(X, Y)`**: Simulates temporal dynamic trajectories over a horizon of $10,000$ periods starting from extreme (`extreme`), median (`middle`), or combined (`both`) initial conditions.
+*   **Attractor Identification**: Computes asymptotic limit points by initializing the model from specific distributions to identify basins of attraction and multiple equilibria within the system.
+
+---
+
+## 19. Temporal Evolution of Social Stratification (`plt.fill_between`)
+
+*   **Horizon Simulation (`Hor`)**: Runs `run_model(...)` over short or long horizons (e.g., $20$, $500$, or $10,000$ periods) starting from an initial distribution (`Init`).
+*   **Stacked Area Charts**: Graphically represents the evolution of population shares for each social class over time using colored zones:
+    *   **Red**: Proportion of the low class ($L$).
+    *   **Yellow**: Proportion of the middle class ($M$).
+    *   **Blue**: Proportion of the high class ($H$).
+
+---
+
+## 20. Comparison of Limit Points According to Contact Intensity (`Soc1` vs. `Soc2`)
+
+*   **Comparative Sensitivity Analysis**: Simulates and compares the location of stationary equilibrium points under a low contact intensity regime (`Soc1 = 2`, represented by `o` circles) versus a high intensity regime (`Soc2 = 30`, represented by `^` triangles).
+*   Allows for a visual analysis of how increasing the number of social interactions per individual alters the structure of attractors within the Gibbs-Simplex triangle.
+
+---
+
+## Appendix: Complete Index and Explanation of Figures (in Ascending Order)
+
+*   **Figure 1 (Decomposition of Basic BGDP Level)**: Stacked bar chart decomposing the basic BGDP change required to move from a reference society to the level of BGDP in each country (from Ethiopia to the USA), broken down by GDP, inequality (Gini), and life expectancy (LE).
+*   **Figure 2 (Cross-Country Rank-Reversals)**: Analysis of cross-country rank-reversals with respect to GDP in 2023 across income categories (LIC, LMIC, UMIC, HIC) for aggregate welfare indicators.
+*   **Figures 4 & 5 (Empirical Robustness & Dynamics)**: Extracts from the empirical section detailing result robustness and cross-country dynamics by income groups.
+*   **Figure 6 (CRRA Functions)**: Graphical representation of CRRA-type functions with a regime change at $z = 3$ (with inequality aversion $\eta = 1$ and $\epsilon = 2$), illustrating the transition between the orange curve (below $z$) and the blue curve (above $z$).
+*   **Figure 7 (Gini Contours)**: 
+    *   *Left*: Contour lines of Gini inequality mapped within the Gibbs-Simplex triangle.
+    *   *Right*: Contour lines of Gini-based social welfare distribution.
+*   **Figure 8 (Atkinson Inequality Contours)**: Contour maps of Atkinson inequality across the simplex under varying inequality aversion parameters ($\eta = 0.5$ vs. $\eta = 2$).
+*   **Figure 9 (Atkinson Social Welfare Contours)**: Contour maps of Atkinson social welfare across the simplex for specified aversion levels.
+*   **Figure 10, 21, 23 (Simplex Scatter Plots)**: Monte Carlo dataset scatter plots projected into the simplex for archetypal interaction structures (*Cooperation, Competition, Homophily, Diversity, Attraction, Exploitation*).
+*   **Figures 11 to 13 (Comparative Panels NW, NE, CW, CE, SW, SE)**: Multi-dimensional comparative scatter plots evaluating paired game types across average welfare vs. inequality, welfare vs. mobility, and short-term vs. discounted long-term opportunities.
+*   **Figure 14 (Global CDF Indicators)**: Empirical Cumulative Distribution Functions (CDF) comparing baseline economic indicators across interaction types.
+*   **Figure 15 (Median-Split Degree Scatterplot)**: Simplex scatter plots split by the median of degree centrality to isolate structural topology effects.
+*   **Figure 16 (Dynamic Vector Fields)**: Dynamic vector fields (blue arrows) and asymptotic limit points (attractors) mapped onto equilateral triangle coordinates for specific transition parameters.
+*   **Figure 17 & 19 (ECDF by Degree / Intensity)**: ECDFs segmented by whether agents lie below or above median degree or interaction intensity thresholds.
+*   **Figure 18 (Median-Split Intensity Scatterplot)**: Simplex scatter plots split by the median of interaction intensity.
+*   **Figures 20 to 22 (Simplex Pathways)**: Temporal convergence trajectories starting from extreme, middle, or combined initial conditions toward stable equilibria.
+*   **Figure 23 (Contact Sensitivity $s$ Analysis)**: Comparative mapping of stationary equilibrium points under low contact intensity ($s=2$, circles) versus high contact intensity ($s=30$, triangles).
+*   **Figure 24 (Temporal Stratification Dynamics)**: Stacked area charts illustrating the dynamic evolution of population class proportions over time ($H$ in blue, $M$ in yellow, $L$ in red).
