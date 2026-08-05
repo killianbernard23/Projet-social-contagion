@@ -1,84 +1,24 @@
-# Projet-social-contagion: Complete Code Manual & Parameters Documentation
+# Projet-social-contagion: Code Manual & Parameters Documentation
 
-This document serves as the exhaustive "cookbook" manual explaining every single function, global variable, parameter, simulation loop, and visualization block used in the Python script for the **Projet-social-contagion** repository.
-
----
-
-## 1. Environment Setup, Imports & Path Configurations
-
-The script begins by importing core numerical, data manipulation, and plotting libraries, followed by setting up professional typography and cross-platform directory paths.
-
-*   **`from __future__ import division`**: Ensures standard floating-point division behavior is consistent across Python 2 and Python 3 environments.
-*   **`import numpy as np`**: Imports NumPy for high-performance matrix calculations, array operations, and mathematical functions.
-*   **`import sys`**: Used for system-level executions, such as gracefully halting execution (`sys.exit(1)`) if probabilities or population shares violate boundary constraints.
-*   **`import matplotlib.pyplot as plt`**: Imports Pyplot for generating, configuring, and saving publication-quality charts and graphs.
-*   **`import matplotlib as mpl`**: Used for global configuration settings of matplotlib parameters.
-*   **`import matplotlib.lines as mlines`**: Manages custom line styles for plots.
-*   **`import pandas as pd`**: Imports Pandas for handling DataFrames, organizing Monte Carlo output data, and exporting results to Excel files.
-*   **`mpl.rcParams['mathtext.fontset'] = 'stix'`**: Configures the mathematical text rendering engine to use the STIX font set.
-*   **`mpl.rcParams['font.family'] = 'STIXGeneral'`**: Sets STIXGeneral as the default font family for consistent academic typography.
-*   **`from pathlib import Path`**: Uses modern object-oriented filesystem paths.
-    *   **`HERE = Path(__file__).parent`**: Identifies the directory containing the active script.
-    *   **`loadpath`**: Points to the target directory (`Game of life/Final3/Results`) for loading pre-computed data files.
-    *   **`save_res`**: Designates the destination folder for output Excel results.
-    *   **`save_fig`**: Designates the destination folder (`Game of life/Final3/Figures`) for saving generated high-resolution PNG figures.
-*   **`col` (Dictionary)**: Maps specific social interaction structures (`Cooperation`, `Competition`, `Attraction`, `Exploitation`, `Homophily`, `Diversity`, etc.) to dedicated color codes for visual tracking in plots.
+This document serves as the technical cookbook explaining the model parameters, abbreviations, and economic functions used in the Python codebase for **Projet-social-contagion** (Ellouze, Fleurbaey, Prigent, 2026).
 
 ---
 
-## 2. Foundational Socioeconomic Constants & Reward Levels
+## 1. Socioeconomic Constants & Reward Levels
 
-These parameters define the status rewards assigned to each social class in the tripartite stratification model:
-
-*   **`RH = 1`**: The reward or status valuation level assigned to the **High-status** class ($H$).
-*   **`RM = 0.5`**: The reward or status valuation level assigned to the **Middle-status** class ($M$).
-*   **`RL = 0.1`**: The reward or status valuation level assigned to the **Low-status** class ($L$).
-
----
-
-## 3. Social & Economic Indicator Functions
-
-These core functions quantify aggregate population statistics, inequality, and welfare:
-
-*   **`Average(L, H)`**: Computes the weighted average of the population's socioeconomic status based on the proportions of High ($H$), Middle ($1-L-H$), and Low ($L$) classes.
-*   **`inequalAtk(L, H, eta)`**: Computes **Atkinson's inequality index** given a specific inequality aversion parameter $\eta$ (`eta`).
-*   **`inequalGini(L, H)`**: Computes the **Gini inequality index** directly from class proportions and status rewards.
-*   **`SWAtk(L, H, eta)`**: Evaluates **Social Welfare** under the Atkinson framework for a given inequality aversion level $\eta$.
-*   **`SWGini(L, H)`**: Evaluates **Social Welfare** based on the Gini distribution structure.
+*   **`RH = 1`**: Status reward valuation for the High-status class ($H$).
+*   **`RM = 0.5`**: Status reward valuation for the Middle-status class ($M$).
+*   **`RL = 0.1`**: Status reward valuation for the Low-status class ($L$).
+*   **`Soc` ($s$)**: Number of one-on-one social contacts per period per individual.
+*   **`eta` ($\eta$)**: Inequality aversion parameter used in Atkinson welfare and inequality metrics.
+*   **`gamma` ($\gamma$)**: Infection or transition probability parameter used in the pandemic model.
+*   **`l_plusplus` ($l^{++}$)**: Exogenous recovery probability back to an immune/higher state.
 
 ---
 
-## 4. Social Mobility Functions
+## 2. Behavioral Interaction Parameters (`psl`, `psd`, `pel`, `ped`, `pil`, `pid`)
 
-These functions process transition matrices (`TRANS`) to evaluate structural and operational mobility across social strata:
-
-*   **`MobDet(TRANS)`**: Computes a mobility index derived from the matrix determinant: $1 - |\det(\text{TRANS})|^{1/2}$.
-*   **`MobTr(TRANS)`**: Calculates mobility using the trace of the transition matrix: $(3 - \text{trace}(\text{TRANS})) / 2$.
-*   **`MobDif(TRANS, L, H, RH, RM, RL)`**: Measures net differential mobility effects across strata boundaries weighted by reward differences.
-*   **`MobOp(TRANS, L, H, RH, RM, RL, eta)`**: Calculates short-term operational mobility based on expected status distributions.
-*   **`MobLTOp(TRANS, L, H, RH, RM, RL, eta, beta)`**: Evaluates long-term operational mobility by computing discounted matrix inversions using a temporal discount factor $\beta$ (`beta`, e.g., 0.97).
-
----
-
-## 5. Simplex Geometry & Vector Field Functions
-
-*   **`to_equilateral(x, y)`**: Transforms standard 2D Cartesian coordinates into coordinates fitted for an equilateral triangle simplex representing three-class population distributions.
-*   **`vector_field(X, Y)`**: Constructs grid-based vector components ($U, V$) mapping population share trajectories across the simplex by evaluating single-period variations.
-
----
-
-## 6. Core Model Dynamics & Simulation Functions
-
-*   **`core_stat(...)`**: Computes steady-state statistics, including class proportions, inequality indices, social welfare measures, mobility indices, and parameter distance/intensity metrics.
-*   **`run_model(...)`**: Simulates the temporal evolution of social strata over a specified time horizon (`Hor`) using non-linear probability adjustments and social contact scaling (`Soc`). Includes strict safety checks to catch boundary violations ($[0,1]$).
-*   **`run_TRANS(...)`**: Executes the temporal simulation steps to construct and return the final $3 \times 3$ transition matrix (`TRANS`).
-*   **`run_var(...)`**: Computes class distribution variations (`HV`, `MV`, `LV`) over a single time period.
-
----
-
-## 7. Interaction Parameter Breakdown (`psl`, `psd`, `pel`, `ped`, `pil`, `pid`)
-
-The behavioral parameters governing state transitions via upward ($\cdot^+$) and downward ($\cdot^-$) interaction matrices (`PU` and `PD`):
+The six core transition probabilities governing upward ($\cdot^+$) and downward ($\cdot^-$) mobility based on meeting partners from lower ($\alpha$), equal ($\beta$), or higher ($\gamma$) classes:
 
 *   **`psl` ($\alpha^+$)**: Probability that a low-status connection induces an upward shift.
 *   **`psd` ($\alpha^-$)**: Probability that a low-status connection induces a downward shift.
@@ -89,41 +29,67 @@ The behavioral parameters governing state transitions via upward ($\cdot^+$) and
 
 ---
 
-## 8. Epidemiological & Pandemic Simulation Blocks
+## 3. Inequality & Social Welfare Functions
 
-*   **Prevalence Probability Check**: Calculates statistical bounds and failure probabilities for observing rare events across sample sizes ($n = 10000$).
-*   **Infection Curve Models**: Compares non-linear infection formulas against linear SIR formulations as a function of disease prevalence.
-*   **`pandemic(...)`**: Simulates an SIR-like epidemic spreading across immune/recovered ($H$), susceptible ($M$), and sick ($L$) populations.
-*   **Visualization Scripts**: Generates multi-layered filled temporal stack plots for pandemic dynamics, learning processes, and flattened curves resulting from contact reduction ($s=5$).
-
----
-
-## 9. Simplex Visualization & Geometry Construction
-
-*   Constructs a 2D meshgrid restricted by simplex constraints ($X + Y \le 1$).
-*   Renders professional equilateral triangle boundaries, directional vertex arrows, scale ticks, vertex labels ($H, M, L$), and interior grid lines.
-*   Plots initial steady-state coordinate markers with formatted text boxes.
+*   **`Average(L, H)`**: Computes the weighted average status of the population based on class proportions.
+*   **`inequalAtk(L, H, eta)`**: Computes Atkinson's inequality index for a given aversion parameter $\eta$.
+*   **`inequalGini(L, H)`**: Computes the Gini inequality index from class distributions and rewards.
+*   **`SWAtk(L, H, eta)`**: Evaluates Social Welfare under the Atkinson framework.
+*   **`SWGini(L, H)`**: Evaluates Social Welfare using the Gini distribution structure.
 
 ---
 
-## 10. Monte Carlo Simulation, Parameter Sampling & Data Export
+## 4. Social Mobility Functions
 
-*   **`sample_param(typen)`**: Randomly draws and tests uniform parameters against strict inequality constraints to generate valid parameter sets for six distinct social games:
-    *   `Cooperation`
-    *   `Competition`
-    *   `Attraction`
-    *   `Exploitation`
-    *   `Homophily`
-    *   `Diversity`
-*   **Monte Carlo Iteration Loops**: Runs up to 1000 convergent simulations per game type using defined tolerances (`tol = 1e-5`) and social contact parameters (`Soc = 40`).
-*   **Divergence Tracking**: Captures non-convergent runs into dedicated divergence datasets (`SAMPLEdiv`).
-*   **Excel Export**: Compiles results into Pandas DataFrames (`dfinit`, `dfindiv`) and exports them directly into `.xlsx` files inside the results directory.
+*   **`MobDet(TRANS)`**: Measures mobility derived from the transition matrix determinant ($1 - |\det(\text{TRANS})|^{1/2}$).
+*   **`MobTr(TRANS)`**: Measures mobility using the trace of the transition matrix.
+*   **`MobDif(TRANS, L, H, RH, RM, RL)`**: Calculates net differential mobility effects across strata boundaries.
+*   **`MobOp(TRANS, L, H, RH, RM, RL, eta)`**: Computes short-term operational mobility.
+*   **`MobLTOp(TRANS, L, H, RH, RM, RL, eta, beta)`**: Evaluates long-term operational mobility via discounted matrix inversion ($\beta = 0.97$).
 
 ---
 
-## 11. Comparative Boxplot Visualizations
+## 5. Core Simulation & Dynamics Functions
 
-*   Loads pre-computed Monte Carlo Excel datasets.
-*   Extracts parameter distributions (`psl`, `psd`, `pel`, `ped`, `pil`, `pid`) for comparative game types (e.g., `Cooperation` vs. `Competition`).
-*   Generates grouped boxplots featuring custom color fills, mathematical LaTeX labels ($\alpha^+, \alpha^-, \beta^+, \beta^-, \gamma^+, \gamma^-$), custom whiskers (`[5, 95]`), legends, and dashed grids.
-*   Saves final high-resolution comparison figures at 300 DPI to the designated figures directory.
+*   **`core_stat(...)`**: Computes steady-state statistics (proportions, inequality, welfare, mobility indices, parameter distance/intensity metrics).
+*   **`run_model(...)`**: Simulates the temporal evolution of social strata shares over a time horizon (`Hor`) using non-linear probability adjustments and contact scaling.
+*   **`run_TRANS(...)`**: Runs temporal simulation steps to construct and return the final $3 \times 3$ transition matrix (`TRANS`).
+*   **`run_var(...)`**: Computes single-period class distribution variations (`HV`, `MV`, `LV`).
+*   **`to_equilateral(x, y)`**: Transforms standard Cartesian coordinates into simplex triangle coordinates.
+*   **`pandemic(...)`**: Simulates an SIR-like epidemiological contagion process across immune ($H$), susceptible ($M$), and sick ($L$) states.
+*   **`sample_param(typen)`**: Randomly samples uniform parameters satisfying strict inequality constraints for the core archetypal game types: `Cooperation`, `Competition`, `Attraction`, `Exploitation`, `Homophily`, and `Diversity`.
+*   # Projet-social-contagion: Code Manual & Parameters Documentation (Part 2)
+
+## 6. Simplex Geometry & Coordinate Transformations
+
+*   **`to_equilateral(x, y)`**: Transforms standard 2D Cartesian coordinates into equilateral triangle simplex coordinates for three-class population distributions ($H, M, L$).
+*   **`vector_field(X, Y)`**: Constructs grid-based vector field components ($U, V$) mapping population share trajectories across the simplex via single-period variations.
+
+---
+
+## 7. Archetypal Interaction Taxonomies (`sample_param`)
+
+The `sample_param(typen)` function randomly samples parameters satisfying specific strict inequality constraints corresponding to the core interaction types defined in the theoretical framework:
+
+*   **`Cooperation`**: Mutual help where upward probabilities exceed downward ones ($\alpha^+ > \alpha^-$, $\beta^+ > \beta^-$, $\gamma^+ > \gamma^-$), and the capacity to help increases with social rank ($\alpha^+ > \beta^+ > \gamma^+$ and $\alpha^- < \beta^- < \gamma^-$).
+*   **`Competition`**: Adversarial/conflictual interactions where downward probabilities dominate ($\alpha^+ < \alpha^-$, $\beta^+ < \beta^-$, $\gamma^+ < \gamma^-$), and meeting higher ranks increases downward risk ($\alpha^+ < \beta^+ < \gamma^+$ and $\alpha^- > \beta^- > \gamma^-$).
+*   **`Attraction`**: Interactions where meeting superiors induces pushes ($\alpha^+ > \alpha^-$) but meeting inferiors pulls down ($\gamma^- > \gamma^+$), governing norm and information transmission.
+*   **`Exploitation`**: The inverse of attraction, where higher classes take advantage of lower classes ($\alpha^+ < \alpha^-$ and $\gamma^- < \gamma^+$).
+*   **`Diversity`**: Interactions where out-class meetings are more productive than in-class meetings ($\beta^+ < \alpha^+, \gamma^+$ and $\beta^- > \alpha^-, \gamma^-$).
+*   **`Homophily`**: In-group favoritism and chauvinistic interaction where in-class meetings outperform out-class meetings ($\beta^+ > \alpha^+, \gamma^+$ and $\beta^- < \alpha^-, \gamma^-$).
+
+---
+
+## 8. Monte Carlo Simulation & Data Export
+
+*   **Monte Carlo Loops**: Runs up to 1000 convergent steady-state simulations per game type using convergence tolerance ($\text{tol} = 10^{-5}$) and social contact parameters ($s = 40$).
+*   **`SAMPLEdiv`**: Tracking array capturing non-convergent or divergent runs for robustness checks.
+*   **Excel Export**: Compiles steady-state indicators (Gini, Atkinson indices, social welfare, mobility indices) and raw parameters into Pandas DataFrames and exports them as `.xlsx` files into the results folder.
+
+---
+
+## 9. Visualization & Plotting Functions
+
+*   **`scatterplot(...)` & `scatterplot2(...)`**: Generates comparative statistical scatter plots of simulation outputs, including custom social indifference curves for Atkinson/Gini welfare frameworks.
+*   **Pandemic Simulation (`pandemic`)**: Implements an SIR-like epidemiological spreading process across immune ($H$), susceptible ($M$), and sick ($L$) populations with recovery rate $l^{++}$.
+*   **Boxplot Comparison Modules**: Extracts parameter distributions (`psl`, `psd`, `pel`, `ped`, `pil`, `pid`) for comparative game types (e.g., Cooperation vs. Competition) and outputs grouped, color-coded boxplots with LaTeX notation ($\alpha^+, \alpha^-, \beta^+, \beta^-, \gamma^+, \gamma^-$) at 300 DPI.
