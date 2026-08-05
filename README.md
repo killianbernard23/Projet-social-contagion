@@ -124,3 +124,58 @@ The `sample_param(typen)` function randomly samples parameters satisfying specif
 *   **`scatterplot(...)` & `scatterplot2(...)`**: Generates comparative statistical scatter plots of simulation outputs, including custom social indifference curves for Atkinson/Gini welfare frameworks.
 *   **Pandemic Simulation (`pandemic`)**: Implements an SIR-like epidemiological spreading process across immune ($H$), susceptible ($M$), and sick ($L$) populations with recovery rate $l^{++}$.
 *   **Boxplot Comparison Modules**: Extracts parameter distributions (`psl`, `psd`, `pel`, `ped`, `pil`, `pid`) for comparative game types (e.g., Cooperation vs. Competition) and outputs grouped, color-coded boxplots with LaTeX notation ($\alpha^+, \alpha^-, \beta^+, \beta^-, \gamma^+, \gamma^-$) at 300 DPI.
+*   # Projet-social-contagion: Code Manual & Parameters Documentation (Part 3 - Visualizations & Vector Fields)
+
+This concluding section of the manual details the visualization scripts, contour plot generators, Monte Carlo scatter plotters, cumulative distribution functions (CDF), and dynamic vector field simulation blocks.
+
+---
+
+## 10. Inequality & Social Welfare Contour Plots on the Simplex
+
+These blocks construct grid spaces inside the constrained simplex region ($x + y \le 1, x \ge 0, y \ge 0$), compute welfare or inequality metrics, transform Cartesian coordinates into equilateral triangle coordinates (`to_equilateral`), and render contour maps.
+
+*   **Gini Inequality Contours**: Evaluates `inequalGini(X, Y)` across grid meshes and traces contour levels with vertex labels. Saved as `Gini contours-inequality`.
+*   **Gini Social Welfare Contours**: Evaluates `SWGini(X, Y)` to map aggregate welfare distributions over the social classes. Saved as `Gini contours-SW`.
+*   **Atkinson Inequality Contours**: Evaluates `inequalAtk(X, Y, eta)` under adjustable inequality aversion parameters ($\eta = 0.5$ or $\eta = 2$). Saved as `Atkinson inequality contours_etaX.png`.
+*   **Atkinson Social Welfare Contours**: Evaluates `SWAtk(X, Y, eta)` for specified aversion levels. Saved as `Atkinson social welfare contours_etaX.png`.
+
+---
+
+## 11. Monte Carlo Simplex Scatter Plotting (`scattersimplot`)
+
+*   **`scattersimplot(typen, XX, YY)`**: Loads pre-computed Monte Carlo Excel datasets (`SAMPLE_s{Soc}_{type1}_{type2}.xlsx`) based on specific interaction structures (`Cooperation`, `Competition`, `Homophily`, `Diversity`, `Attraction`, `Exploitation`).
+*   Extracts specified column indices (`XX`, `YY`), transforms coordinates into the equilateral triangle space, applies specific taxonomy colors (`col[typen]`), and exports high-resolution scatter graphics (`MC_s{Soc}_simplex_{typen}.png`).
+
+---
+
+## 12. Comparative Scatter & Indifference Curves (`scatterplot` / `scatterplot2`)
+
+*   **`scatterplot2(...)` & `scatterplot(...)`**: Generates comparative statistical scatter plots between paired game types (e.g., Cooperation vs. Competition) across multiple dimensions:
+    *   **North-West (NW)**: Average welfare vs. Gini inequality.
+    *   **North-East (NE)**: Average welfare vs. Atkinson inequality ($\eta = 0.5$).
+    *   **Centre-West (CW)**: Average welfare vs. Atkinson inequality ($\eta = 2$).
+    *   **Centre-East (CE)**: Gini social welfare vs. Mobility (Determinant).
+    *   **South-West (SW)**: Atkinson social welfare ($\eta = 2$) vs. Mobility (Difference).
+    *   **South-East (SE)**: Short-term opportunities vs. Long-term discounted opportunities ($\eta = 2$).
+
+---
+
+## 13. Cumulative Distribution Functions (`CDF`)
+
+*   Iterates over all 10 core quantitative indicators (Gini/Atkinson inequalities, social welfare variations, mobility determinants/differences, and opportunities).
+*   Extracts simulation outcomes for competing interaction types, sorts series values, computes cumulative fractions via expanding counts, and generates step-plots (`plt.step(..., where='post')`) exported as CDF comparison charts.
+
+---
+
+## 14. Median-Split Degree Scatterplots (`scattersimplot_median_split`)
+
+*   **`scatter_subset_plot(...)`**: Loads simulation arrays including degree centrality metrics from designated column indexes (`zz = 25`).
+*   Splits datasets relative to the median degree value (`z < median_z` vs. `z >= median_z`) to isolate and visualize structural effects of low-degree versus high-degree social connectivity configurations within the simplex.
+
+---
+
+## 15. Dynamic Vector Fields & Limit Points
+
+*   **`run_model(...)`**: Simulates temporal convergence trajectories over large time horizons ($T = 20,000$) starting from various initial conditions ([0.25, 0.5, 0.25], [1, 0, 0], [0, 0, 1]) to isolate steady-state limit points ($X_0, Y_0$, $XH_0, YH_0$, $XL_0, YL_0$).
+*   **`vector_field(X, Y)`**: Computes single-period variation vector components ($U, V$) across meshgrids.
+*   **`plt.quiver(...)`**: Renders blue vector field arrows mapped onto equilateral triangle coordinates (`U_tri`, `V_tri`), highlighting directional trajectories, stability basins, and asymptotic limits for specific game configurations.
