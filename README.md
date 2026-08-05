@@ -31,7 +31,7 @@ A Python simulation and quantitative analysis framework modeling social contagio
 
 Ensure you have Python 3 installed along with the required numerical and plotting libraries:
 
-```bash
+
 pip install numpy matplotlib pandas
 ---
 
